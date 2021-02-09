@@ -1,9 +1,9 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+
+import itemsRouter from "./items.routes";
 
 const routes = Router();
 
-routes.get("/", (request: Request, response: Response) => {
-  return response.json({ message: "Hello World" });
-});
+routes.use("/items", itemsRouter);
 
 export default routes;
