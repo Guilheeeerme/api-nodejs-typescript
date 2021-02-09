@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/Guilheeeerme/api-nodejs-typescript#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "knex": "^0.21.17"
+    "knex": "^0.21.17",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
