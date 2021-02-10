@@ -28,9 +28,10 @@ class LocationController {
 
     const transaction = await knex.transaction();
 
-    const newIds = await transaction("locations").insert(location);
+    await transaction("locations").insert(location);
 
-    const location_id = newIds[0];
+    const ids = await transaction("locations").select(["id"]);
+    const location_id = ids[ids.length - 1].id;
 
     const locationItems = items.map((item_id: number) => {
       const selectedItem = transaction("items").where("id", item_id).first();
