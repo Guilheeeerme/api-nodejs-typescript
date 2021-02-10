@@ -55,6 +55,23 @@ class LocationController {
       ...location,
     });
   }
+
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const location = await knex("locations").where("id", id).first();
+
+    if (!location) {
+      return response.status(404).json({ message: "Location not found." });
+    }
+
+    const items = await knex("items")
+      .join("location_items", "items.id", "=", "location_items.item_id")
+      .where("location_items.location_id", id)
+      .select(["items.title"]);
+
+    return response.status(200).json({ location, items });
+  }
 }
 
 export default LocationController;

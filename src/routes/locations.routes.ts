@@ -7,5 +7,6 @@ const routes = Router();
 const locationController = new LocationController();
 
 routes.post("/", locationController.create);
+routes.get("/:id", locationController.show);
 
 export default routes;
