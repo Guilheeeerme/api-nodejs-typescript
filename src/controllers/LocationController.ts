@@ -72,6 +72,36 @@ class LocationController {
 
     return response.status(200).json({ location, items });
   }
+
+  async index(request: Request, response: Response) {
+    const { city, uf, items } = request.query;
+
+    if (city && uf && items) {
+      const parsedItems = <any>String(items)
+        .split(",")
+        .map((item) => {
+          Number(item.trim());
+        });
+
+      const locations = await knex("locations")
+        .join(
+          "location_items",
+          "locations.id",
+          "=",
+          "location_items.location_id"
+        )
+        .whereIn("location_items.item_id", parsedItems)
+        .where("city", String(city))
+        .where("uf", String(uf))
+        .distinct()
+        .select("locations.*");
+
+      return response.status(200).json(locations);
+    } else {
+      const locations = await knex("locations").select("*");
+      return response.status(200).json(locations);
+    }
+  }
 }
 
 export default LocationController;
