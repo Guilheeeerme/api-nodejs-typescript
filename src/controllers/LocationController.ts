@@ -102,6 +102,24 @@ class LocationController {
       ...location,
     });
   }
+
+  async update(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const image = request.file.filename;
+
+    const location = await knex("locations").where("id", id).first();
+
+    if (!location) {
+      return response.status(404).json({ message: "Location not found." });
+    }
+
+    await knex("locations")
+      .update({ ...location, image })
+      .where("id", id);
+
+    return response.status(200).json({ ...location, image });
+  }
 }
 
 export default LocationController;
